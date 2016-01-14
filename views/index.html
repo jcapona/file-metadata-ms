@@ -7,16 +7,47 @@
   <h1>File Metadata Microservice</h1>
   <p>You can upload a file, using a FormData object</p>
   <p>When the file is submitted, you'll receive the file size in bytes within the JSON response </p>
-
+  <hr>
   <h2>Upload your file</h2>
-	<form method="post" action="/upload/" enctype="multipart/form-data" id="file-form">
-		<input type="file" name="upfile" accept="application/x-zip-compressed,image/*">
+	<form enctype="multipart/form-data" id="file-form" name="file-form">
+		<input type="file" accept="application/x-zip-compressed,image/*">
 		<input type="submit" value="Upload" >
 	</form>
-      
+	<h3>JSON Response</h3>
+	<span id="resp">Upload a file first.</span>
+  <hr>
   <h2>Credits</h2>
   <p> Made by <a href="http://jcapona.github.io">jcapona</a></p>
   <p> Check the repo <a href="https://github.com/jcapona/file-metadata-ms">@Github</a></p>
 		
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script>
+		var files;
+		$('input[type=file]').on('change', function() {
+			files = event.target.files[0];
+		});
+
+    $("#file-form").on('submit',function(e)
+    {
+      e.stopPropagation();
+      e.preventDefault();
+      var data = new FormData();
+  		data.append("upfile", files);
+      $.ajax({
+					  url: window.location.origin+'/upload/',
+					  type: 'POST',
+					  data: data,
+					  cache: false,
+					  processData: false,
+					  contentType: false,
+  					error: function(jqXHR, textStatus, errorThrown) {
+  						alert('Error: ' + textStatus);
+  					},
+	  				success: function(data) {
+	  					$("#resp").html(JSON.stringify(data));
+	  				}
+      });
+    });
+  </script>
 </body>
 </html>
