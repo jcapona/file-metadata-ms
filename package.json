@@ -23,7 +23,8 @@
   "dependencies": {
     "express": "^4.9.8",
     "jade": "^1.9.2",
-    "mongodb": "^2.1.4"
+    "mongodb": "^2.1.4",
+    "formidable": "^1.0.17"
   },
   "engines": {
     "node": "4.1.1"
